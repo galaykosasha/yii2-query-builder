@@ -1,0 +1,43 @@
+{
+    "name": "galaykosasha/yii2-query-builder",
+    "description": "Extension for Yii2 Framework to work with jQuery QueryBuilder",
+    "keywords": ["yii2", "dynamic", "query", "builder", "query-builder", "interface"],
+    "type": "yii2-extension",
+    "license": "BSD-3-Clause",
+    "support": {
+        "issues": "https://github.com/galaykosasha/yii2-query-builder/issues",
+        "source": "https://github.com/galaykosasha/yii2-query-builder"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "authors": [
+        {
+            "name": "Galayko Sasha",
+            "email": "galaykosasha@gmail.com"
+        }
+    ],
+    "repositories": [
+      {
+        "type": "composer",
+        "url": "https://asset-packagist.org"
+      }
+    ],
+    "require": {
+        "php": "^7.1",
+        "yiisoft/yii2": "~2.0.13",
+        "bower-asset/jquery-querybuilder": "*",
+        "pascaldevink/shortuuid":"~1"
+
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~7.1.5"
+    },
+    "autoload": {
+        "psr-4": { "galaykosasha\\query_builder\\": "" }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.0.1"
+        }
+    }
+}
