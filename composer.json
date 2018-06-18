@@ -34,10 +34,5 @@
     },
     "autoload": {
         "psr-4": { "galaykosasha\\query_builder\\": "" }
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "0.0.2-dev"
-        }
     }
 }
