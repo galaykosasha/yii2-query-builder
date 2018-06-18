@@ -27,7 +27,6 @@
         "yiisoft/yii2": "~2.0.13",
         "bower-asset/jquery-querybuilder": "*",
         "pascaldevink/shortuuid":"~1"
-
     },
     "require-dev": {
         "phpunit/phpunit": "~7.1.5"
