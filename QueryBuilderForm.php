@@ -92,6 +92,11 @@ class QueryBuilderForm extends Widget
     public $rules;
 
     /**
+     * @var string input id
+     */
+    public $input_id;
+
+    /**
      * @inheritdoc
      */
     public function init()
@@ -112,8 +117,11 @@ class QueryBuilderForm extends Widget
         }
 
         echo $this->builder->run();
-        echo Html::beginForm($this->action, $this->method, $this->options);
-        echo Html::hiddenInput($this->rulesParam);
+
+        if(empty($this->input_id)) {
+            echo Html::beginForm($this->action, $this->method, $this->options);
+            echo Html::hiddenInput($this->rulesParam);
+        }
     }
 
     /**
@@ -121,7 +129,9 @@ class QueryBuilderForm extends Widget
      */
     public function run()
     {
-        echo Html::endForm();
+        if(empty($this->input_id)) {
+            echo Html::endForm();
+        }
 
         $id = $this->options['id'];
         $builderId = $this->builder->getId();
@@ -137,25 +147,38 @@ class QueryBuilderForm extends Widget
 
         $view->registerJs("var $frm = $('#{$id}');");
         $view->registerJs(<<<JS
-    var $btn = {$frm}.find('button:reset:first');
-    if ($btn.length){
-        $btn.on('click', function(){
-            $('#{$builderId}').queryBuilder('reset');
-        });
-    }
+            var $btn = {$frm}.find('button:reset:first');
+            if ($btn.length){
+                $btn.on('click', function(){
+                    $('#{$builderId}').queryBuilder('reset');
+                });
+            }
 JS
         );
 
+        if (!empty($this->input_id)) {
+            $view->registerJs(<<<JS
+                $(document).on('mouseleave', '#query-builder', function() {
+                    var rules = $('#{$builderId}').queryBuilder('getRules');
+                    var input = $('#{$this->input_id}');
+                    input.val(JSON.stringify(rules));
+                });
+JS
+            );
+        }
+
         $view->registerJs(<<<JS
-{$frm}.on('submit', function(){
-    var rules = $('#{$builderId}').queryBuilder('getRules');
-    if ($.isEmptyObject(rules)) {
-        return false;
-    } else {
-        var input = $(this).find("input[name='{$this->rulesParam}']:first");
-        input.val(JSON.stringify(rules));
-    }
-});
+            {$frm}.on('submit', function() {
+                this.preventDefault();
+                
+                var rules = $('#{$builderId}').queryBuilder('getRules');
+                if ($.isEmptyObject(rules)) {
+                    return false;
+                } else {
+                    var input = $(this).find("input[name='{$this->rulesParam}']:first");
+                    input.val(JSON.stringify(rules));
+                }
+            });
 JS
         );
     }
